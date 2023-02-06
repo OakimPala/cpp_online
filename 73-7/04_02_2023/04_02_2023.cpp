@@ -43,8 +43,6 @@ int main()
         v1.shrink_to_fit();
     }
 
-
-
     //std::vector<A> v1;
     //
     //for (size_t i = 0; i < 10; i++)
