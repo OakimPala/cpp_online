@@ -22,6 +22,7 @@ public:
 	}
 
 	Train(int val) {
+		weight = val;
 	}
 
 	Train(int val1, int val2) {
