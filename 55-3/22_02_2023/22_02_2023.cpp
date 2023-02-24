@@ -3,7 +3,6 @@
 #include <chrono>
 #include <windows.h>
 
-
 //int search(std::vector<int>& data, int left, int right, int target) {
 //	if (data.size() > 0 && left < right && left >= 0 && right <= data.size()) {
 //		for (int i = left; i < right; i++)
@@ -63,41 +62,39 @@
 //private:
 //	std::vector<BankAccount> accounts;
 //};
-
-class Image {
-private:
-	class Pixel {
-	public:
-		Pixel(short r, short g, short b) {
-			this->r = r;
-			this->g = g;
-			this->b = b;
-		}
-
-	private:
-		int r;
-		int g;
-		int b;
-	};
-
-	std::vector<Pixel*> pixels;
-
-public:
-	Image() = default;
-
-	void addPixel(int r, int g, int b) {
-		pixels.push_back(new Pixel(r, g, b));
-	}
-
-	~Image() {
-		for (auto& pixel : pixels)
-		{
-			delete pixel;
-		}
-	}
-
-};
-
+//class Image {
+//private:
+//	class Pixel {
+//	public:
+//		Pixel(short r, short g, short b) {
+//			this->r = r;
+//			this->g = g;
+//			this->b = b;
+//		}
+//
+//	private:
+//		int r;
+//		int g;
+//		int b;
+//	};
+//
+//	std::vector<Pixel*> pixels;
+//
+//public:
+//	Image() = default;
+//
+//	void addPixel(int r, int g, int b) {
+//		pixels.push_back(new Pixel(r, g, b));
+//	}
+//
+//	~Image() {
+//		for (auto& pixel : pixels)
+//		{
+//			delete pixel;
+//		}
+//	}
+//
+//};
 //class A {
 //public:
 //	int a;
@@ -126,7 +123,19 @@ public:
 	}
 
 	void setPixel(short x, short y, wchar_t wch) {
-		screenBuffer[y * width + x] = wch;
+		if (x < width && x >= 0 && y < height && y >= 0) {
+			screenBuffer[y * width + x] = wch;
+		}
+	}
+
+	//void _cls() {
+	//	static const int LINE_COUNT = 200;
+	//	for (int i = 0; i < LINE_COUNT; i++)
+	//		std::cout << "\n";
+	//}
+
+	void refresh() {
+		for (size_t i = 0; i < screenBuffer.length(); i++) screenBuffer[i] = L' ';
 	}
 
 	void draw() {
@@ -143,14 +152,27 @@ int main()
 	Engine engine;
 
 	float x = 0.0f;
+	float y = 0.0f;
 
 	while (true) {
-		engine.setPixel(x, 10, 'W');
+		engine.setPixel(x, y, 'W');
 		engine.draw();
-		x += 0.1;
+
+		if (GetAsyncKeyState(VK_RIGHT)) {
+			x += 1.0f;
+		}
+		if (GetAsyncKeyState(VK_LEFT)) {
+			x -= 1.0f;
+		}
+		if (GetAsyncKeyState(VK_UP)) {
+			y -= 1.0f;
+		}
+		if (GetAsyncKeyState(VK_DOWN)) {
+			y += 1.0f;
+		}
+
+		engine.refresh();
 	}
-
-
 
 
 	/*for (int i = 0; i < length; i++)
